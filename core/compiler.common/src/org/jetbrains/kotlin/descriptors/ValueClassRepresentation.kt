@@ -23,9 +23,6 @@ sealed class ValueClassRepresentation<Type : SimpleTypeMarker> {
     }
 }
 
-fun SimpleTypeMarker.valueClassRepresentationTypeMarkersList(context: TypeSystemCommonBackendContext): List<Pair<Name, SimpleTypeMarker>>? =
-    with(context) { this@valueClassRepresentationTypeMarkersList.typeConstructor().valueClassRepresentationTypeMarkersList() }
-
 enum class ValueClassEnum { Inline, MultiField }
 
 fun <Type : SimpleTypeMarker> jvmInlineLoweringMode(

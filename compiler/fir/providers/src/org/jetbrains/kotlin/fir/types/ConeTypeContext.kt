@@ -560,9 +560,9 @@ interface ConeTypeContext : TypeSystemContext, TypeSystemOptimizationContext, Ty
         return jvmInlineLoweringMode(this@ConeTypeContext, fields) == ValueClassEnum.MultiField
     }
 
-    override fun TypeConstructorMarker.valueClassRepresentationTypeMarkersList(): List<Pair<Name, SimpleTypeMarker>>? =
-        toFirRegularClass()?.takeIf { it.isInline }?.primaryConstructorIfAny(session)?.fir?.valueParameters
-            ?.map { it.name to (it.returnTypeRef.coneType.asSimpleType() ?: error("Simple type expected")) }
+    override fun TypeConstructorMarker.valueClassRepresentationTypeMarkersList(): List<Pair<Name, SimpleTypeMarker>>? {
+        return toFirRegularClass()?.valueClassRepresentation?.underlyingPropertyNamesToTypes
+    }
 
     override fun TypeConstructorMarker.isInnerClass(): Boolean {
         return toFirRegularClass()?.isInner == true
