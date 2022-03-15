@@ -5,6 +5,7 @@
 
 package org.jetbrains.kotlin.analysis.api.fir.symbols
 
+import com.intellij.openapi.project.Project
 import org.jetbrains.kotlin.KtFakeSourceElementKind
 import org.jetbrains.kotlin.analysis.api.ValidityTokenOwner
 import org.jetbrains.kotlin.analysis.api.symbols.KtSymbol
@@ -80,6 +81,17 @@ internal tailrec fun FirDeclaration.ktSymbolOrigin(): KtSymbolOrigin = when (ori
     }
 }
 
-
 class InvalidFirDeclarationOriginForSymbol(declaration: FirDeclaration) :
     IllegalStateException("Invalid FirDeclarationOrigin ${declaration.origin::class.simpleName} for ${declaration.render()}")
+
+val KtSymbol.firForUast: FirDeclaration
+    get() {
+        check(this is KtFirSymbol<*>)
+        return firSymbol.fir
+    }
+
+val KtSymbol.projectForUast: Project
+    get() {
+        check(this is KtFirSymbol<*>)
+        return resolveState.project
+    }
